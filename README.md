@@ -16,7 +16,7 @@ Example from admin order page:
 
 Run following commands:
 ```
-composer require --dev denispapec/sourcehints
+composer require --dev papec/source-hints
 ./bin/magento module:enable Papec_SourceHints
 ./bin/magento setup:upgrade
 ```
