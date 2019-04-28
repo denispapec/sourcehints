@@ -19,4 +19,5 @@ Run following commands:
 composer require --dev papec/source-hints
 ./bin/magento module:enable Papec_SourceHints
 ./bin/magento setup:upgrade
+./bin/magento config:set dev/debug/source_hints 1
 ```

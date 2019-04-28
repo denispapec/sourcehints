@@ -4,6 +4,7 @@
  * @package   Papec\SourceHints
  * @author    Denis Papec <denis.papec@gmail.com>
  */
+declare(strict_types=1);
 namespace Papec\SourceHints\Plugin;
 
 /**
@@ -13,6 +14,22 @@ namespace Papec\SourceHints\Plugin;
  */
 class ContainerInfo
 {
+    /**
+     * @var \Papec\SourceHints\Model\Module
+     */
+    private $module;
+
+    /**
+     * ContainerInfo constructor.
+     *
+     * @param \Papec\SourceHints\Model\Module $module
+     */
+    public function __construct(
+        \Papec\SourceHints\Model\Module $module
+    ) {
+        $this->module = $module;
+    }
+
     /**
      * Add wrapper to html
      *
@@ -26,7 +43,11 @@ class ContainerInfo
         \Magento\Framework\View\Layout $subject,
         callable $proceed,
         string $name
-    ) {
+    ) : string {
+        if (!$this->module->isEnabled()) {
+            return $proceed($name);
+        }
+
         if ($subject->isUiComponent($name)) {
             $wrapper = '<!-- START UI {{ %s }} -->%s<!-- END UI {{ %1$s }} -->';
         } elseif ($subject->isBlock($name)) {

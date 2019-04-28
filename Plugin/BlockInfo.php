@@ -4,6 +4,7 @@
  * @package   Papec\SourceHints
  * @author    Denis Papec <denis.papec@gmail.com>
  */
+declare(strict_types=1);
 namespace Papec\SourceHints\Plugin;
 
 /**
@@ -14,14 +15,34 @@ namespace Papec\SourceHints\Plugin;
 class BlockInfo
 {
     /**
+     * @var \Papec\SourceHints\Model\Module
+     */
+    private $module;
+
+    /**
+     * BlockInfo constructor.
+     *
+     * @param \Papec\SourceHints\Model\Module $module
+     */
+    public function __construct(
+        \Papec\SourceHints\Model\Module $module
+    ) {
+        $this->module = $module;
+    }
+
+    /**
      *
      * @param \Magento\Framework\View\Element\Template $subject
      * @param string                                   $result
      *
      * @return string
      */
-    public function afterFetchView(\Magento\Framework\View\Element\Template $subject, string $result)
+    public function afterFetchView(\Magento\Framework\View\Element\Template $subject, string $result) : string
     {
+        if (!$this->module->isEnabled()) {
+            return $result;
+        }
+
         $templateFile = $subject->getTemplateFile();
         $blockName = $subject->getNameInLayout();
 
