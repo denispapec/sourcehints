@@ -43,7 +43,7 @@ class ContainerInfo
         \Magento\Framework\View\Layout $subject,
         callable $proceed,
         string $name
-    ) : string {
+    ) {
         if (!$this->module->isEnabled()) {
             return $proceed($name);
         }
